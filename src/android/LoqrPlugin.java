@@ -65,7 +65,7 @@
 
                       context = cordova.getActivity();
                       activity = (CordovaActivity) cordova.getActivity();
-                      toasty = this;
+                      loqr = this;
                       String message;
                       String duration;
                       
