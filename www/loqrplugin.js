@@ -40,6 +40,18 @@ LoqrPlugin.prototype.initCamera = function(successCallback, errorCallback) {
   cordova.exec(successCallback, errorCallback, 'LoqrPlugin', 'initCamera', [options]);
 }
 
+LoqrPlugin.prototype.hasPermissions = function(successCallback, errorCallback) {
+  var options = {};
+  
+  cordova.exec(successCallback, errorCallback, 'LoqrPlugin', 'hasPermissions', [options]);
+}
+
+LoqrPlugin.prototype.requestPermissions = function(successCallback, errorCallback) {
+  var options = {};
+  
+  cordova.exec(successCallback, errorCallback, 'LoqrPlugin', 'requestPermissions', [options]);
+}
+
 // Installation constructor that binds ToastyPlugin to window
 LoqrPlugin.install = function() {
   if (!window.plugins) {

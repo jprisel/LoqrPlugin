@@ -69,25 +69,9 @@
                       String message;
                       String duration;
                       
-                      Toast toast6 = Toast.makeText(context, "entrei na App",
-                        Toast.LENGTH_LONG);
-                       // Display toast
-                        toast6.show();
+                      PluginResult pluginResult;
                       
-                      if(activity == null)
-                      {
-                          toast6 = Toast.makeText(context, "Activity is null",
-                        Toast.LENGTH_LONG);
-                       // Display toast
-                        toast6.show();
-                      }
-                      else {
-                          toast6 = Toast.makeText(context, "Activity não é null, yes!",
-                        Toast.LENGTH_SHORT);
-                       // Display toast
-                        toast6.show();
-                      }
-                     
+                      
                      
                       
 
@@ -104,25 +88,23 @@
                                 27 //use a unique code to distinguish the request results
                         );
 
-                    }
+                        }
                       else {
-                          toast6 = Toast.makeText(context, action,
-                        Toast.LENGTH_LONG);
-                       // Display toast
-                        toast6.show();
-                          
-                          if(action.equals("show"))
+                      
+                          if(action.equals("requestPermissions"))
                           {
-                              try {
-                                JSONObject options = args.getJSONObject(0);
-                                message = options.getString("message");
-                                duration = options.getString("duration");
-                              } catch (JSONException e) {
-                                    callbackContext.error("Error encountered: " + e.getMessage());
-                                    return false;
-                              }
-                              show(cordova.getActivity(), message,duration);
+                              requestPermissions();
                              
+                          }
+                          else if(action.equals("hasPermissions"))
+                          {
+                              if(!hasPermissions())
+                              {
+                                    pluginResult = new PluginResult(PluginResult.Status.ERROR);
+                                    callbackContext.sendPluginResult(pluginResult);
+                                    return false;
+                                  
+                              }
                           }
                           else if(action.equals("initLoqr"))
                           {
@@ -160,10 +142,32 @@
 
 
 
-                      PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+                        pluginResult = new PluginResult(PluginResult.Status.OK);
                       callbackContext.sendPluginResult(pluginResult);
                       return true;
                   }
+                    
+                    private boolean hasPermissions()
+                    {
+                        
+                        if (!Loqr.permissionsChecked(cordova.getActivity())) {
+                            return false;
+        
+                        }
+                        return true
+                        
+                    }
+                    
+                    private void requestPermissions() {
+                        
+                        ActivityCompat.requestPermissions(cordova.getActivity(),
+                                new String[]{Manifest.permission.READ_PHONE_STATE,
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                            Manifest.permission.CAMERA},
+                                27 //use a unique code to distinguish the request results
+                        );
+
+                    }
                     
                     public static LoqrPlugin getInstance()
                     {
